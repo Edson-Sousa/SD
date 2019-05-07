@@ -34,7 +34,7 @@ public class RestPostsClient extends RestClient implements Posts {
 	public Result<Post> getPost(String postId) {
 		Response r = target.path(postId)
 				.request()
-				.accept(MediaType.APPLICATION_JSON)
+				.accept( MediaType.APPLICATION_JSON)
 				.get();
 
 		return super.responseContents(r, Status.OK, new GenericType<Post>() {});
