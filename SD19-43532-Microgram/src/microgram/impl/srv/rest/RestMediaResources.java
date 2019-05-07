@@ -1,18 +1,55 @@
 package microgram.impl.srv.rest;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
 
+import microgram.api.java.Media;
+import microgram.api.java.Result;
 import microgram.api.rest.RestMediaStorage;
-import utils.Hash;
+import microgram.impl.srv.shared.JavaMedia;
 
-public class RestMediaResources implements RestMediaStorage {
+public class RestMediaResources extends RestResource implements RestMediaStorage {
+	
+	final Media impl;
+	final String baseUri;
+	
+	public RestMediaResources(String baseUri ) {
+		this.baseUri = baseUri + RestMediaStorage.PATH;
+		this.impl = new JavaMedia();
+	}
+	
+	@Override
+	public String upload(byte[] bytes) {
+		Result<String> result = impl.upload(bytes);
+		if (result.isOK())
+			return baseUri + "/" + result.value();
+		else
+			throw new WebApplicationException(super.statusCode(result));
+	}
 
-	private static final String MEDIA_EXTENSION = ".jpg";
+	@Override
+	public byte[] download(String id) {
+		Result<byte[]> result = impl.download( id );
+		if( result.isOK() )
+			return result.value();
+		else
+			throw new WebApplicationException( super.statusCode( result )) ;
+}
+
+	@Override
+	public void delete(String id) {
+		Result<Void> result = impl.delete(id);
+		if( !result.isOK())
+			throw new WebApplicationException( super.statusCode(result));
+	}
+
+	@Override
+	public void update(String id, byte[] bytes) {
+		Result<Void> result = impl.update(id, bytes);
+		if( !result.isOK())
+			throw new WebApplicationException( super.statusCode(result));
+	}
+
+/*	private static final String MEDIA_EXTENSION = ".jpg";
 	private static final String ROOT_DIR = "/tmp/microgram/";
 
 	final String baseUri;
@@ -79,5 +116,5 @@ public class RestMediaResources implements RestMediaStorage {
 			throw new WebApplicationException( Status.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+*/
 }

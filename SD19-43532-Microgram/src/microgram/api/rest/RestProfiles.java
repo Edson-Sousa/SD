@@ -52,4 +52,8 @@ public interface RestProfiles {
 	@GET
 	@Path("/{userId1}/following/{userId2}")
 	boolean isFollowing( @PathParam("userId1") String userId1, @PathParam("userId2") String userId2);
+	
+	@GET
+	@Path("/{userId}")
+	List<String> listOfFollowings( @PathParam("userId") String userId);
 }

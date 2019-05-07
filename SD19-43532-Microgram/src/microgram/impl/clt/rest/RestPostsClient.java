@@ -14,7 +14,6 @@ import microgram.api.java.Posts;
 import microgram.api.java.Result;
 import microgram.api.rest.RestPosts;
 
-//TODO Make this class concrete
 public class RestPostsClient extends RestClient implements Posts {
 
 	public RestPostsClient(URI serverUri) {

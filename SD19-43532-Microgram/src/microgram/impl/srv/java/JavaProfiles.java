@@ -52,8 +52,6 @@ public class JavaProfiles extends RestResource implements microgram.api.java.Pro
 		if( res == null )
 			return error(NOT_FOUND);
 		
-		//tratar dos likes e dos posts
-		
 		Set<String> userFollowers = followers.remove(userId);
 		for( String user: userFollowers ) {
 			Set<String> aux = following.get(user);

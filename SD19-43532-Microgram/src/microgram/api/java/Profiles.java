@@ -66,11 +66,10 @@ public interface Profiles {
 	Result<Boolean> isFollowing(String userId1, String userId2);
 
 	/**
-	 * Returns the list of users that a user follows
+	 * Returns the list of user profiles followed by the userId profile
 	 * 
-	 * @param userId the user who follows the other users
-	 * @return result of (OK, List<String>); an empty list of the search yields 
-	 * no profiles
+	 * @param userId user profile of the follows other user profiles
+	 * @return (OK, List<String>|empty list), NOT_FOUND if the user profile is not known
 	 */
 	Result<List<String>> listOfFollowings(String userId);
 }

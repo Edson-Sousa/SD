@@ -2,7 +2,6 @@ package microgram.impl.clt.rest;
 
 import java.net.URI;
 import java.util.List;
-
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -74,6 +73,16 @@ public class RestProfilesClient extends RestClient implements Profiles {
 				.get();
 
 		return super.responseContents(r, Status.OK, new GenericType<Boolean>() {});
+	}
+
+	@Override
+	public Result<List<String>> listOfFollowings(String userId) {
+		Response r = target.path(userId)
+				.request()
+				.accept(MediaType.APPLICATION_JSON)
+				.get();
+		
+		return super.responseContents(r, Status.OK, new GenericType<List<String>>() {});
 	}
 	
 }

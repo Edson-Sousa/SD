@@ -17,9 +17,9 @@ public interface Media {
 	 * @param id the (the path portion) of the media resource uri
 	 * @return the bytes that comprise the contents of the media resource, or NOT_FOUND
 	 */
-	Result<byte[]> download(String id);
+	Result<byte[]> download( String id);
 	
-	Result<Void> delete(String id);
+	Result<Void> delete( String id);
 	
 	Result<Void> update( String id, byte[] bytes);
 }

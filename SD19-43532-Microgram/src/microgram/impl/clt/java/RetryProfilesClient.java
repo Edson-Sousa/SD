@@ -1,7 +1,6 @@
 package microgram.impl.clt.java;
 
 import java.util.List;
-
 import microgram.api.Profile;
 import microgram.api.java.Profiles;
 import microgram.api.java.Result;
@@ -42,5 +41,10 @@ public class RetryProfilesClient extends RetryClient implements Profiles {
 	@Override
 	public Result<Boolean> isFollowing(String userId1, String userId2) {
 		return reTry( () -> impl.isFollowing(userId1, userId2));
+	}
+
+	@Override
+	public Result<List<String>> listOfFollowings(String userId) {
+		return reTry( () -> impl.listOfFollowings(userId));
 	}
 }

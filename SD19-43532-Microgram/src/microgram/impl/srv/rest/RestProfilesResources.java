@@ -9,7 +9,6 @@ import microgram.api.java.Profiles;
 import microgram.api.rest.RestProfiles;
 import microgram.impl.srv.java.JavaProfiles;
 
-//Make this class concrete.
 public class RestProfilesResources extends RestResource implements RestProfiles {
 
 	final Profiles impl;
@@ -51,6 +50,11 @@ public class RestProfilesResources extends RestResource implements RestProfiles 
 	public boolean isFollowing(String userId1, String userId2) {
 
 		return super.resultOrThrow( impl.isFollowing(userId1, userId2));
+	}
+
+	@Override
+	public List<String> listOfFollowings(String userId) {
+		return super.resultOrThrow( impl.listOfFollowings(userId));
 	}
 
 }

@@ -4,8 +4,6 @@ import static microgram.api.java.Result.error;
 import static microgram.api.java.Result.ok;
 import static microgram.api.java.Result.ErrorCode.CONFLICT;
 import static microgram.api.java.Result.ErrorCode.NOT_FOUND;
-import static microgram.api.java.Result.ErrorCode.NOT_IMPLEMENTED;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +26,7 @@ public class JavaPosts implements Posts {
 	protected Map<String, Post> posts = new HashMap<>();
 	protected Map<String, Set<String>> likes = new HashMap<>();
 	protected Map<String, Set<String>> userPosts = new HashMap<>();
+	protected Map<String, Set<String>> userFeed = new HashMap<>();
 
 	@Override
 	public Result<Post> getPost(String postId) {
@@ -104,11 +103,18 @@ public class JavaPosts implements Posts {
 	@Override
 	public Result<List<String>> getFeed(String userId) {
 		URI[] u = Discovery.findUrisOf("Microgram-Profiles", 1);
-		RestProfilesClient pc = new RestProfilesClient(u[1]);
+		RestProfilesClient pc = new RestProfilesClient(u[0]);
 		RetryProfilesClient rpc = new RetryProfilesClient(pc);
-		
-		Set<String> f = rpc.listOfFollowings(userId);
-		
-		return error(NOT_IMPLEMENTED);	//TODO
+
+		if( rpc.getProfile(userId) == null )
+			return error(NOT_FOUND);
+
+		Set<String> followingList = new HashSet<>(rpc.listOfFollowings(userId).value());
+		for(String user: followingList) {
+			Set<String> aux = userPosts.get(user);
+			userFeed.put(userId, aux);
+		}
+		Set<String> res = userFeed.get(userId);
+		return ok(new ArrayList<>(res));
 	}
 }
